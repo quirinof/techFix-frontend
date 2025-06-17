@@ -137,7 +137,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
               type="email"
               {...register("email", {
                 pattern: {
-                  value: /^\S+@\S+$/i,
+                  value: /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
                   message: "Formato de e-mail inválido.",
                 },
               })}
@@ -146,6 +146,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
               }`}
               placeholder="exemplo@email.com"
             />
+
             {errors.email && (
               <p className="font-medium text-red-600 text-sm mt-2">
                 {errors.email.message}
