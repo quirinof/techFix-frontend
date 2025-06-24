@@ -29,7 +29,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
         </h1>
         <button
           onClick={onAddNew}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2 bg-blue-600 text-white font-bold rounded-md shadow-sm hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2 cursor-pointer  shadow-2xs hover:shadow-lg hover:shadow-blue-500/50 transition-all duration-300 bg-blue-600 text-white font-bold rounded-md  hover:bg-blue-700 transition-colors focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
         >
           <PlusCircle size={20} />
           Adicionar Cliente

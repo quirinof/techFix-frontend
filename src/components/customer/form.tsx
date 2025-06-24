@@ -6,7 +6,7 @@ type CustomerFormData = Omit<ICustomer, "id" | "createdAt">;
 
 interface CustomerFormProps {
   initialData?: ICustomer;
-  onSubmit: (data: CustomerFormData) => void;
+  onSubmit: (data: CustomerFormData, id?: number) => void;
   onCancel: () => void;
 }
 
@@ -45,7 +45,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
   }, [initialData, reset]);
 
   const onFormSubmit: SubmitHandler<CustomerFormData> = (data) => {
-    onSubmit(data);
+    onSubmit(data, initialData?.id);
   };
 
   const baseInputClasses =
@@ -171,17 +171,17 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
           </div>
         </div>
 
-        <div className="flex items-center justify-start gap-4 mt-8 pt-6 border-t border-gray-200">
+        <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
           <button
             type="submit"
-            className="px-6 py-2.5 bg-blue-600 text-white font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-colors"
+            className="px-6 py-2.5 cursor-pointer bg-blue-600 shadow-2xs hover:shadow-lg hover:shadow-blue-500/50 text-white font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-all duration-300"
           >
             {initialData ? "Salvar Alterações" : "Salvar Cliente"}
           </button>
           <button
             type="button"
             onClick={onCancel}
-            className="px-6 py-2.5 bg-transparent border border-gray-500 text-gray-800 font-bold rounded-md hover:bg-gray-100 transition-colors"
+            className="px-6 py-2.5  cursor-pointer bg-transparent border border-gray-500 text-gray-800 font-bold rounded-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300"
           >
             Cancelar
           </button>

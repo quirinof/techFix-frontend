@@ -49,11 +49,13 @@ const CustomerPage: React.FC = () => {
   };
 
   const handleFormSubmit = async (
-    data: Omit<ICustomer, "id" | "createdAt">
+    data: Omit<ICustomer, "id" | "createdAt">,
+    id?: number
   ) => {
     if (editingCustomer) {
       try {
-        await api.patch("/customers", data);
+        const { addresses, equipment, ...rest } = data;
+        await api.put(`/customers/${id}`, rest);
 
         dispatch(
           updatecustomer({

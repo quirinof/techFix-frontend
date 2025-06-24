@@ -9,7 +9,8 @@ export default function AdminLayout({
 }) {
   return (
     <div className="flex flex-col">
-      <APIStatusBar />;{children}
+      <APIStatusBar />
+      {children}
     </div>
   );
 }

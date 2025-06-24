@@ -15,6 +15,8 @@ export interface ICustomer {
   documentType?: DocumentType;
   phone?: string;
   email?: string;
+  equipment?: [];
+  addresses?: [];
   createdAt: string;
 }
 
