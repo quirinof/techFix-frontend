@@ -1,4 +1,6 @@
 import { ICustomer, DocumentType } from "@/lib/redux/features/customerSlice";
+import { ArrowRight, MapPin } from "lucide-react";
+import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 
@@ -15,6 +17,8 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -46,6 +50,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
 
   const onFormSubmit: SubmitHandler<CustomerFormData> = (data) => {
     onSubmit(data, initialData?.id);
+  };
+
+  const handleNavigateToAddresses = () => {
+    if (initialData?.id) {
+      router.push(`/admin/endereco/${initialData.id}`);
+    }
   };
 
   const baseInputClasses =
@@ -187,6 +197,45 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
           </button>
         </div>
       </form>
+
+      {initialData && (
+        <div className="mt-12 pt-8 ">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
+            <div
+              onClick={handleNavigateToAddresses}
+              className="group relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
+            >
+              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-bl-full"></div>
+
+              <div className="relative z-10">
+                <div className="flex items-center mb-4">
+                  <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">
+                    <MapPin className="w-6 h-6 text-white" />
+                  </div>
+                  <div className="ml-4">
+                    <h3 className="text-lg font-semibold text-blue-800">
+                      Endereços
+                    </h3>
+                    <p className="text-blue-600 text-sm">
+                      Gerenciar localizações
+                    </p>
+                  </div>
+                </div>
+
+                <p className="text-blue-700 text-sm mb-4">
+                  Visualize e gerencie todos os endereços cadastrados para este
+                  cliente
+                </p>
+
+                <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700 transition-colors">
+                  <span>Acessar</span>
+                  <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
