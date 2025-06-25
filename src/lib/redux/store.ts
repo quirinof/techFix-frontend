@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit";
 import customerReducer from "./features/customerSlice";
+import addressReducer from "./features/addressSlice";
 
 export const makeStore = () => {
   return configureStore({
     reducer: {
       customer: customerReducer,
+      address: addressReducer,
     },
   });
 };
