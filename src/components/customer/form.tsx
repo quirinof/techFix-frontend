@@ -1,5 +1,14 @@
 import { ICustomer, DocumentType } from "@/lib/redux/features/customerSlice";
-import { ArrowRight, MapPin } from "lucide-react";
+import {
+  ArrowRight,
+  MapPin,
+  User,
+  Mail,
+  Phone,
+  FileText,
+  Save,
+  X,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
@@ -58,184 +67,202 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
     }
   };
 
-  const baseInputClasses =
-    "w-full px-4 py-2 bg-white border border-gray-400 text-gray-900 placeholder:text-gray-500 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-transparent transition";
-
-  const errorInputClasses = "border-red-600 focus:ring-red-600";
-
   return (
-    <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <h1 className="text-3xl font-extrabold text-gray-900 border-b border-gray-200 pb-4 mb-8">
-        {initialData ? "Editar Cliente" : "Novo Cliente"}
-      </h1>
-      <form
-        onSubmit={handleSubmit(onFormSubmit)}
-        className="flex flex-col gap-6"
-        noValidate
-      >
-        <div>
-          <label
-            htmlFor="name"
-            className="block text-base font-semibold text-gray-900 mb-2"
-          >
-            Nome Completo
-          </label>
-          <input
-            id="name"
-            type="text"
-            {...register("name", { required: "O nome é obrigatório." })}
-            className={`${baseInputClasses} ${
-              errors.name ? errorInputClasses : ""
-            }`}
-            placeholder="Insira o nome completo"
-          />
-          {errors.name && (
-            <p className="font-medium text-red-600 text-sm mt-2">
-              {errors.name.message}
-            </p>
-          )}
+    <div className="min-h-screen bg-gray-50">
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="mb-8">
+          <h1 className="text-3xl font-bold text-gray-800 mb-2">
+            {initialData ? "Editar Cliente" : "Novo Cliente"}
+          </h1>
+          <p className="text-gray-600">
+            {initialData
+              ? "Atualize as informações do cliente selecionado"
+              : "Preencha os dados para cadastrar um novo cliente"}
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="documentType"
-              className="block text-base font-semibold text-gray-900 mb-2"
+        <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+          <div className="p-8">
+            <form
+              onSubmit={handleSubmit(onFormSubmit)}
+              className="space-y-6"
+              noValidate
             >
-              Tipo de Documento
-            </label>
-            <select
-              id="documentType"
-              {...register("documentType")}
-              className={baseInputClasses}
-            >
-              {Object.values(DocumentType).map((type) => (
-                <option key={type} value={type}>
-                  {type.toUpperCase()}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          <div>
-            <label
-              htmlFor="document"
-              className="block text-base font-semibold text-gray-900 mb-2"
-            >
-              Número do Documento
-            </label>
-            <input
-              id="document"
-              type="text"
-              {...register("document")}
-              className={baseInputClasses}
-              placeholder="Apenas números"
-            />
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-base font-semibold text-gray-900 mb-2"
-            >
-              E-mail
-            </label>
-            <input
-              id="email"
-              type="email"
-              {...register("email", {
-                pattern: {
-                  value: /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
-                  message: "Formato de e-mail inválido.",
-                },
-              })}
-              className={`${baseInputClasses} ${
-                errors.email ? errorInputClasses : ""
-              }`}
-              placeholder="exemplo@email.com"
-            />
-
-            {errors.email && (
-              <p className="font-medium text-red-600 text-sm mt-2">
-                {errors.email.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label
-              htmlFor="phone"
-              className="block text-base font-semibold text-gray-900 mb-2"
-            >
-              Telefone
-            </label>
-            <input
-              id="phone"
-              type="tel"
-              {...register("phone")}
-              className={baseInputClasses}
-              placeholder="(84) 99999-9999"
-            />
-          </div>
-        </div>
-
-        <div className="flex items-center justify-end gap-4 mt-8 pt-6 border-t border-gray-200">
-          <button
-            type="submit"
-            className="px-6 py-2.5 cursor-pointer bg-blue-600 shadow-2xs hover:shadow-lg hover:shadow-blue-500/50 text-white font-bold rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 transition-all duration-300"
-          >
-            {initialData ? "Salvar Alterações" : "Salvar Cliente"}
-          </button>
-          <button
-            type="button"
-            onClick={onCancel}
-            className="px-6 py-2.5  cursor-pointer bg-transparent border border-gray-500 text-gray-800 font-bold rounded-md hover:bg-gray-100 hover:shadow-lg transition-all duration-300"
-          >
-            Cancelar
-          </button>
-        </div>
-      </form>
-
-      {initialData && (
-        <div className="mt-12 pt-8 ">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-2xl mx-auto">
-            <div
-              onClick={handleNavigateToAddresses}
-              className="group relative overflow-hidden bg-gradient-to-br from-blue-50 to-blue-100 border border-blue-200 rounded-xl p-6 cursor-pointer transform transition-all duration-300 hover:scale-105 hover:shadow-xl hover:shadow-blue-500/25"
-            >
-              <div className="absolute top-0 right-0 w-20 h-20 bg-gradient-to-br from-blue-400/20 to-blue-600/20 rounded-bl-full"></div>
-
-              <div className="relative z-10">
-                <div className="flex items-center mb-4">
-                  <div className="p-3 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg shadow-lg group-hover:shadow-blue-500/50 transition-shadow duration-300">
-                    <MapPin className="w-6 h-6 text-white" />
-                  </div>
-                  <div className="ml-4">
-                    <h3 className="text-lg font-semibold text-blue-800">
-                      Endereços
-                    </h3>
-                    <p className="text-blue-600 text-sm">
-                      Gerenciar localizações
+              <div className="space-y-6">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                  >
+                    <User className="w-4 h-4 text-gray-500" />
+                    Nome Completo
+                  </label>
+                  <input
+                    id="name"
+                    type="text"
+                    {...register("name", { required: "O nome é obrigatório." })}
+                    className={`w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:bg-white transition-all duration-200 ${
+                      errors.name
+                        ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100"
+                        : "border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                    }`}
+                    placeholder="Digite o nome completo do cliente"
+                  />
+                  {errors.name && (
+                    <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                      <X className="w-4 h-4" />
+                      {errors.name.message}
                     </p>
+                  )}
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label
+                      htmlFor="documentType"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                    >
+                      <FileText className="w-4 h-4 text-gray-500" />
+                      Tipo de Documento
+                    </label>
+                    <select
+                      id="documentType"
+                      {...register("documentType")}
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
+                    >
+                      {Object.values(DocumentType).map((type) => (
+                        <option key={type} value={type}>
+                          {type.toUpperCase()}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  <div>
+                    <label
+                      htmlFor="document"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                    >
+                      <FileText className="w-4 h-4 text-gray-500" />
+                      Número do Documento
+                    </label>
+                    <input
+                      id="document"
+                      type="text"
+                      {...register("document")}
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
+                      placeholder="000.000.000-00"
+                    />
                   </div>
                 </div>
 
-                <p className="text-blue-700 text-sm mb-4">
-                  Visualize e gerencie todos os endereços cadastrados para este
-                  cliente
-                </p>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div>
+                    <label
+                      htmlFor="email"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                    >
+                      <Mail className="w-4 h-4 text-gray-500" />
+                      E-mail
+                    </label>
+                    <input
+                      id="email"
+                      type="email"
+                      {...register("email", {
+                        pattern: {
+                          value: /^[\w.-]+@([\w-]+\.)+[\w-]{2,4}$/,
+                          message: "Formato de e-mail inválido.",
+                        },
+                      })}
+                      className={`w-full px-4 py-3 bg-gray-50 border-2 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:bg-white transition-all duration-200 ${
+                        errors.email
+                          ? "border-red-300 focus:border-red-500 focus:ring-4 focus:ring-red-100"
+                          : "border-gray-200 focus:border-blue-500 focus:ring-4 focus:ring-blue-100"
+                      }`}
+                      placeholder="cliente@exemplo.com"
+                    />
+                    {errors.email && (
+                      <p className="text-red-600 text-sm mt-2 flex items-center gap-1">
+                        <X className="w-4 h-4" />
+                        {errors.email.message}
+                      </p>
+                    )}
+                  </div>
 
-                <div className="flex items-center text-blue-600 text-sm font-medium group-hover:text-blue-700 transition-colors">
-                  <span>Acessar</span>
-                  <ArrowRight className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform duration-300" />
+                  <div>
+                    <label
+                      htmlFor="phone"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                    >
+                      <Phone className="w-4 h-4 text-gray-500" />
+                      Telefone
+                    </label>
+                    <input
+                      id="phone"
+                      type="tel"
+                      {...register("phone")}
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
+                      placeholder="(84) 99999-9999"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  className="w-full sm:w-auto px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <X className="w-4 h-4" />
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {initialData ? "Salvar Alterações" : "Cadastrar Cliente"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {initialData && (
+          <div className="mt-8">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="p-6">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Ações Adicionais
+                </h3>
+
+                <div
+                  onClick={handleNavigateToAddresses}
+                  className="group relative overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-md">
+                        <MapPin className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800">
+                          Gerenciar Endereços
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          Visualize e gerencie todos os endereços deste cliente
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      )}
+        )}
+      </div>
     </div>
   );
 };
