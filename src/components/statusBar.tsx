@@ -42,11 +42,13 @@ function APIStatusBar() {
   const currentStatus = statusConfig[status];
 
   return (
-    <div
-      className={`flex w-full items-center gap-x-3 rounded-lg p-3 text-sm font-semibold ${currentStatus.className}`}
-    >
-      {currentStatus.icon}
-      <span>{currentStatus.text}</span>
+    <div>
+      <div
+        className={`flex w-fit items-center gap-x-3 rounded-lg p-2 text-xs font-semibold ${currentStatus.className}`}
+      >
+        {currentStatus.icon}
+        <span>{currentStatus.text}</span>
+      </div>
     </div>
   );
 }
