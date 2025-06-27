@@ -2,6 +2,7 @@ import React from "react";
 import { useRouter, usePathname } from "next/navigation";
 import { ArrowLeft, FileText, Users, DollarSign, LogOut } from "lucide-react";
 import APIStatusBar from "./statusBar";
+import Cookies from "js-cookie";
 
 const Navbar = () => {
   const router = useRouter();
@@ -14,6 +15,11 @@ const Navbar = () => {
 
   const handleNavigation = (path: string) => {
     router.push(path);
+  };
+
+  const handleLogout = () => {
+    Cookies.set("accessToken", "", { expires: 7 });
+    router.push("/login");
   };
 
   return (
@@ -64,7 +70,7 @@ const Navbar = () => {
 
           <div className="flex items-center">
             <button
-              onClick={handleGoBack}
+              onClick={handleLogout}
               className="cursor-pointer flex items-center space-x-2 px-3 py-2 rounded-md text-white hover:bg-white/10 transition-all duration-200 ease-in-out"
             >
               <span className="font-medium">Sair</span>
