@@ -8,6 +8,7 @@ import {
   FileText,
   Save,
   X,
+  Monitor,
 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect } from "react";
@@ -64,6 +65,12 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
   const handleNavigateToAddresses = () => {
     if (initialData?.id) {
       router.push(`/admin/endereco/${initialData.id}`);
+    }
+  };
+
+  const handleNavigateToEquipments = () => {
+    if (initialData?.id) {
+      router.push(`/admin/equipamento/${initialData.id}`);
     }
   };
 
@@ -252,6 +259,29 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
                         </h4>
                         <p className="text-gray-600 text-sm">
                           Visualize e gerencie todos os endereços deste cliente
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+
+                <div
+                  onClick={handleNavigateToEquipments}
+                  className="group relative overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-md">
+                        <Monitor className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800">
+                          Gerenciar Equipamentos
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          Visualize e gerencie todos os equipamentos deste
+                          cliente
                         </p>
                       </div>
                     </div>
