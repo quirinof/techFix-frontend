@@ -15,6 +15,7 @@ export interface IEquipment {
   model?: string | null;
   serialNumber?: string | null;
   customerId: number;
+  createdAt: string;
 }
 
 interface EquipmentState {
