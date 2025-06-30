@@ -12,7 +12,7 @@ import {
   PlusCircle,
   ClipboardList,
   Calendar,
-  FileText,
+  User,
 } from "lucide-react";
 import api from "@/lib/axios/api";
 
@@ -42,6 +42,7 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
   const serviceOrders = useSelector(
     (state: RootState) => state.serviceOrder.serviceOrder
   );
+  const customers = useSelector((state: RootState) => state.customer.customer);
   const dispatch = useDispatch();
 
   const handleDelete = async (id: number) => {
@@ -49,6 +50,11 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
       await api.delete(`/service-orders/${id}`);
       dispatch(removeServiceOrder(id));
     }
+  };
+
+  const getCustomerName = (customerId: number) => {
+    const customer = customers.find((c) => c.id === customerId);
+    return customer ? customer.name : `ID ${customerId}`;
   };
 
   return (
@@ -105,10 +111,10 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
                 <thead>
                   <tr className="bg-gray-50 border-b border-gray-200">
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                      OS
+                      Descrição
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                      Descrição
+                      Cliente
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
                       Status
@@ -134,18 +140,18 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
                           </div>
                           <div>
                             <div className="font-semibold text-gray-900">
-                              OS #{os.id}
+                              {os.description}
                             </div>
                             <div className="text-sm text-gray-500">
-                              Cliente #{os.customerId}
+                              OS #{os.id}
                             </div>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4 max-w-xs truncate">
                         <div className="flex items-center gap-2 text-sm text-gray-700">
-                          <FileText className="w-4 h-4 text-gray-400" />
-                          <span title={os.description}>{os.description}</span>
+                          <User className="w-4 h-4 text-gray-400" />
+                          <span> {getCustomerName(os.customerId)} </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
