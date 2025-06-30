@@ -18,12 +18,12 @@ export interface IServiceOrder {
 }
 
 interface serviceOrderState {
-  serviceOrders: IServiceOrder[];
+  serviceOrder: IServiceOrder[];
   selectedServiceOrder?: IServiceOrder;
 }
 
 const initialState: serviceOrderState = {
-  serviceOrders: [],
+  serviceOrder: [],
 };
 
 export const serviceOrderSlice = createSlice({
@@ -31,26 +31,26 @@ export const serviceOrderSlice = createSlice({
   initialState,
   reducers: {
     setServiceOrders: (state, action: PayloadAction<IServiceOrder[]>) => {
-      state.serviceOrders = action.payload;
+      state.serviceOrder = action.payload;
     },
     addServiceOrder: (state, action: PayloadAction<IServiceOrder>) => {
-      state.serviceOrders.push(action.payload);
+      state.serviceOrder.push(action.payload);
     },
     updateServiceOrder: (state, action: PayloadAction<IServiceOrder>) => {
-      const index = state.serviceOrders.findIndex(
+      const index = state.serviceOrder.findIndex(
         (p) => p.id === action.payload.id
       );
       if (index !== -1) {
-        state.serviceOrders[index] = action.payload;
+        state.serviceOrder[index] = action.payload;
       }
     },
     removeServiceOrder: (state, action: PayloadAction<number>) => {
-      state.serviceOrders = state.serviceOrders.filter(
+      state.serviceOrder = state.serviceOrder.filter(
         (p) => p.id !== action.payload
       );
     },
     selectServiceOrder: (state, action: PayloadAction<number>) => {
-      state.selectedServiceOrder = state.serviceOrders.find(
+      state.selectedServiceOrder = state.serviceOrder.find(
         (p) => p.id === action.payload
       );
     },
