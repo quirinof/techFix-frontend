@@ -2,6 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import customerReducer from "./features/customerSlice";
 import addressReducer from "./features/addressSlice";
 import equipmentReducer from "./features/equipmentSlice";
+import serviceOrderReducer from "./features/serviceOrderSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -9,6 +10,7 @@ export const makeStore = () => {
       customer: customerReducer,
       address: addressReducer,
       equipment: equipmentReducer,
+      serviceOrder: serviceOrderReducer,
     },
   });
 };
