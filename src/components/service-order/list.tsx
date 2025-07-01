@@ -42,6 +42,11 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
   const serviceOrders = useSelector(
     (state: RootState) => state.serviceOrder.serviceOrder
   );
+
+  const sortedServiceOrders = [...serviceOrders].sort(
+    (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()
+  );
+
   const customers = useSelector((state: RootState) => state.customer.customer);
   const dispatch = useDispatch();
 
@@ -128,7 +133,7 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {serviceOrders.map((os) => (
+                  {sortedServiceOrders.map((os) => (
                     <tr
                       key={os.id}
                       className="hover:bg-gray-50 transition-colors duration-200 group"
@@ -141,9 +146,6 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
                           <div>
                             <div className="font-semibold text-gray-900">
                               {os.description}
-                            </div>
-                            <div className="text-sm text-gray-500">
-                              OS #{os.id}
                             </div>
                           </div>
                         </div>
