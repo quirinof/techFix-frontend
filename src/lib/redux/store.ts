@@ -3,6 +3,7 @@ import customerReducer from "./features/customerSlice";
 import addressReducer from "./features/addressSlice";
 import equipmentReducer from "./features/equipmentSlice";
 import serviceOrderReducer from "./features/serviceOrderSlice";
+import serviceOrderItemReducer from "./features/serviceOrderItemSlice";
 
 export const makeStore = () => {
   return configureStore({
@@ -11,6 +12,7 @@ export const makeStore = () => {
       address: addressReducer,
       equipment: equipmentReducer,
       serviceOrder: serviceOrderReducer,
+      serviceOrderItem: serviceOrderItemReducer,
     },
   });
 };

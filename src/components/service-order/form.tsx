@@ -3,9 +3,18 @@ import {
   ServiceOrderStatus,
 } from "@/lib/redux/features/serviceOrderSlice";
 import { ICustomer } from "@/lib/redux/features/customerSlice";
-import { FileText, Save, X, ClipboardList, User } from "lucide-react";
+import {
+  FileText,
+  Save,
+  X,
+  ClipboardList,
+  User,
+  List,
+  ArrowRight,
+} from "lucide-react";
 import React, { useEffect } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
 type ServiceOrderFormData = Omit<IServiceOrder, "id" | "createdAt">;
 
@@ -22,6 +31,8 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
   onSubmit,
   onCancel,
 }) => {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
@@ -56,6 +67,10 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
       estimate: Number(data.estimate),
     };
     onSubmit(payload, initialData?.id);
+  };
+
+  const handleNavigateToItems = () => {
+    router.push(`/admin/ordem-servico-item/${initialData?.id}`);
   };
 
   return (
@@ -190,6 +205,30 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
                   )}
                 </div>
               </div>
+
+              {initialData ? (
+                <div
+                  onClick={handleNavigateToItems}
+                  className="group relative overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center shadow-md">
+                        <List className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800">
+                          Gerenciar Itens
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          Visualize e gerencie todos os itens desta OS
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+              ) : undefined}
 
               <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-gray-200">
                 <button
