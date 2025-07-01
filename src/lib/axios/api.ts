@@ -1,4 +1,5 @@
 import axios from "axios";
+import Cookies from "js-cookie";
 
 const api = axios.create({
   baseURL: "http://localhost:4000/",
@@ -8,9 +9,9 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  const token = localStorage.getItem("token");
+  const token = Cookies.get("accessToken");
   if (token) {
-    config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7Im5hbWUiOiJIYWxseSIsImVtYWlsIjoiaGFsbEBnbWFpbC5jb20ifSwiaWF0IjoxNzUwMTk2MjI5LCJleHAiOjE3NTAyODI2Mjl9._EogQedDPEcEK3KLF8eV3yZN2u8FnWkrfMxb6MjMp6c`;
+    config.headers.Authorization = `Bearer ${token}`;
   }
   return config;
 });

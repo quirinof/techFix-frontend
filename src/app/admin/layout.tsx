@@ -1,6 +1,6 @@
 "use client";
 
-import APIStatusBar from "@/components/statusBar";
+import Navbar from "@/components/navbar";
 
 export default function AdminLayout({
   children,
@@ -9,7 +9,7 @@ export default function AdminLayout({
 }) {
   return (
     <div className="flex flex-col">
-      <APIStatusBar />
+      <Navbar />
       {children}
     </div>
   );

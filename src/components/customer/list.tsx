@@ -68,7 +68,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-          {filteredCustomers.length === 0 ? (
+          {customers.length === 0 ? (
             <div className="px-6 py-20 text-center">
               <div className="flex flex-col items-center gap-6">
                 <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
@@ -92,6 +92,13 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                       Adicionar Primeiro Cliente
                     </button>
                   )}
+                  <button
+                    onClick={onAddNew}
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-colors"
+                  >
+                    <PlusCircle size={18} />
+                    Adicionar Primeiro Cliente
+                  </button>
                 </div>
               </div>
             </div>
