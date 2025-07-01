@@ -168,7 +168,7 @@ const ServiceOrderList: React.FC<ServiceOrderListProps> = ({
                       <td className="px-6 py-4">
                         <div className="inline-flex items-center gap-2 text-sm text-gray-700">
                           <Calendar className="w-4 h-4 text-gray-400" />
-                          {new Date(os.createdAt).toLocaleDateString()}
+                          {new Date(os.createdAt).toLocaleDateString("pt-BR")}
                         </div>
                       </td>
                       <td className="px-6 py-4 text-right">
