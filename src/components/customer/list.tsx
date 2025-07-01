@@ -23,15 +23,21 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
     }
   };
 
-  const filteredCustomers = customers.filter((customer) => {
-    const searchLower = search.toLowerCase();
-    return (
-      customer.name?.toLowerCase().includes(searchLower) ||
-      customer.document?.toLowerCase().includes(searchLower) ||
-      customer.email?.toLowerCase().includes(searchLower) ||
-      customer.phone?.toLowerCase().includes(searchLower)
-    );
-  });
+  const filteredCustomers = customers
+    .filter((customer) => {
+      const searchLower = search.toLowerCase();
+      return (
+        customer.name?.toLowerCase().includes(searchLower) ||
+        customer.document?.toLowerCase().includes(searchLower) ||
+        customer.email?.toLowerCase().includes(searchLower) ||
+        customer.phone?.toLowerCase().includes(searchLower)
+      );
+    })
+    .sort((a, b) => {
+      if (!a.name) return 1;
+      if (!b.name) return -1;
+      return a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" });
+    });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -68,7 +74,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
         </div>
 
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-          {customers.length === 0 ? (
+          {filteredCustomers.length === 0 ? (
             <div className="px-6 py-20 text-center">
               <div className="flex flex-col items-center gap-6">
                 <div className="w-20 h-20 bg-gray-100 rounded-full flex items-center justify-center">
@@ -92,13 +98,6 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                       Adicionar Primeiro Cliente
                     </button>
                   )}
-                  <button
-                    onClick={onAddNew}
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-colors"
-                  >
-                    <PlusCircle size={18} />
-                    Adicionar Primeiro Cliente
-                  </button>
                 </div>
               </div>
             </div>
@@ -111,10 +110,10 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                       Cliente
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                      Documento
+                      Contato
                     </th>
                     <th className="px-6 py-4 text-left text-sm font-semibold text-gray-700">
-                      Contato
+                      Documento
                     </th>
                     <th className="px-6 py-4 text-right text-sm font-semibold text-gray-700">
                       Ações
@@ -136,19 +135,6 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                             <div className="font-semibold text-gray-900">
                               {customer.name}
                             </div>
-                            <div className="text-sm text-gray-500">
-                              Cliente #{customer.id}
-                            </div>
-                          </div>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4">
-                        <div className="space-y-1">
-                          <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
-                            {customer.documentType?.toUpperCase() || "N/A"}
-                          </div>
-                          <div className="text-sm text-gray-600 font-mono">
-                            {customer.document}
                           </div>
                         </div>
                       </td>
@@ -161,6 +147,16 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                           <div className="flex items-center gap-2 text-sm text-gray-700">
                             <Phone className="w-4 h-4 text-gray-400" />
                             {customer.phone}
+                          </div>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4">
+                        <div className="space-y-1">
+                          <div className="inline-flex items-center px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                            {customer.documentType?.toUpperCase() || "N/A"}
+                          </div>
+                          <div className="text-sm text-gray-600 font-mono">
+                            {customer.document}
                           </div>
                         </div>
                       </td>
