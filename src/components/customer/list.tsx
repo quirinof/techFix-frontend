@@ -1,6 +1,6 @@
 import { ICustomer, removecustomer } from "@/lib/redux/features/customerSlice";
 import { RootState } from "@/lib/redux/store";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Pencil, Trash2, PlusCircle, User, Phone, Mail } from "lucide-react";
 import api from "@/lib/axios/api";
@@ -14,12 +14,24 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
   const customers = useSelector((state: RootState) => state.customer.customer);
   const dispatch = useDispatch();
 
+  const [search, setSearch] = useState("");
+
   const handleDelete = async (id: number) => {
     if (window.confirm("Tem certeza que deseja remover este cliente?")) {
       await api.delete(`/customers/${id}`);
       dispatch(removecustomer(id));
     }
   };
+
+  const filteredCustomers = customers.filter((customer) => {
+    const searchLower = search.toLowerCase();
+    return (
+      customer.name?.toLowerCase().includes(searchLower) ||
+      customer.document?.toLowerCase().includes(searchLower) ||
+      customer.email?.toLowerCase().includes(searchLower) ||
+      customer.phone?.toLowerCase().includes(searchLower)
+    );
+  });
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -45,6 +57,16 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
           </button>
         </div>
 
+        <div className="mb-6 flex justify-center">
+          <input
+            type="text"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full sm:w-1/2 px-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-200"
+            placeholder="Pesquisar cliente por nome, documento, e-mail ou telefone"
+          />
+        </div>
+
         <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
           {customers.length === 0 ? (
             <div className="px-6 py-20 text-center">
@@ -54,11 +76,22 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                 </div>
                 <div>
                   <h3 className="text-xl font-semibold text-gray-800 mb-2">
-                    Nenhum cliente cadastrado
+                    Nenhum cliente encontrado
                   </h3>
                   <p className="text-gray-500 mb-6">
-                    Comece adicionando seu primeiro cliente ao sistema.
+                    {search
+                      ? "Tente alterar o termo de pesquisa."
+                      : "Comece adicionando seu primeiro cliente ao sistema."}
                   </p>
+                  {!search && (
+                    <button
+                      onClick={onAddNew}
+                      className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-colors"
+                    >
+                      <PlusCircle size={18} />
+                      Adicionar Primeiro Cliente
+                    </button>
+                  )}
                   <button
                     onClick={onAddNew}
                     className="inline-flex items-center gap-2 px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl transition-colors"
@@ -89,7 +122,7 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
-                  {customers.map((customer, index) => (
+                  {filteredCustomers.map((customer) => (
                     <tr
                       key={customer.id}
                       className="hover:bg-gray-50 transition-colors duration-200 group"
@@ -157,11 +190,11 @@ const CustomerList: React.FC<CustomerListProps> = ({ onEdit, onAddNew }) => {
           )}
         </div>
 
-        {customers.length > 0 && (
+        {filteredCustomers.length > 0 && (
           <div className="mt-6 flex items-center justify-between text-sm text-gray-500">
             <span>
-              Mostrando {customers.length}{" "}
-              {customers.length === 1 ? "resultado" : "resultados"}
+              Mostrando {filteredCustomers.length}{" "}
+              {filteredCustomers.length === 1 ? "resultado" : "resultados"}
             </span>
           </div>
         )}
