@@ -162,7 +162,9 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
                       type="number"
                       step="0.01"
                       min={0}
-                      {...register("estimate")}
+                      {...register("estimate", {
+                        required: "O valor é obrigatório.",
+                      })}
                       className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 placeholder:text-gray-500 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
                       placeholder="Ex: 150.00"
                     />
@@ -206,7 +208,35 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
                 </div>
               </div>
 
-              {initialData ? (
+              <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-gray-200">
+                <button
+                  type="button"
+                  onClick={onCancel}
+                  className="w-full sm:w-auto px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <X className="w-4 h-4" />
+                  Cancelar
+                </button>
+                <button
+                  type="submit"
+                  className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
+                >
+                  <Save className="w-4 h-4" />
+                  {initialData ? "Salvar Alterações" : "Cadastrar OS"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+
+        {initialData && (
+          <div className="mt-8">
+            <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
+              <div className="p-6 flex flex-col gap-4">
+                <h3 className="text-lg font-semibold text-gray-800 mb-4">
+                  Ações Adicionais
+                </h3>
+
                 <div
                   onClick={handleNavigateToItems}
                   className="group relative overflow-hidden bg-gradient-to-r from-blue-50 to-blue-100 border-2 border-blue-200 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
@@ -228,28 +258,10 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
                     <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </div>
-              ) : undefined}
-
-              <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-gray-200">
-                <button
-                  type="button"
-                  onClick={onCancel}
-                  className="w-full sm:w-auto px-6 py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-medium rounded-xl transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <X className="w-4 h-4" />
-                  Cancelar
-                </button>
-                <button
-                  type="submit"
-                  className="w-full sm:w-auto px-6 py-3 bg-blue-500 hover:bg-blue-600 text-white font-medium rounded-xl shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2"
-                >
-                  <Save className="w-4 h-4" />
-                  {initialData ? "Salvar Alterações" : "Cadastrar OS"}
-                </button>
               </div>
-            </form>
+            </div>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

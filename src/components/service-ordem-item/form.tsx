@@ -146,40 +146,41 @@ const ServiceOrderItemForm: React.FC<ServiceOrderItemFormProps> = ({
                   />
                 </div>
 
-                <div>
-                  <label
-                    htmlFor="status"
-                    className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
-                  >
-                    <ClipboardList className="w-4 h-4 text-gray-500" />
-                    Status do Item
-                  </label>
-                  <select
-                    id="status"
-                    {...register("status")}
-                    className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
-                  >
-                    {Object.values(ServiceOrderItemStatus)
-                      .filter((status) =>
-                        !initialData
-                          ? status !== ServiceOrderItemStatus.EXECUTING
-                          : true
-                      )
-                      .map((status) => (
-                        <option key={status} value={status}>
-                          {
+                {initialData ? (
+                  <div>
+                    <label
+                      htmlFor="status"
+                      className="flex items-center gap-2 text-sm font-semibold text-gray-700 mb-3"
+                    >
+                      <ClipboardList className="w-4 h-4 text-gray-500" />
+                      Status do Item
+                    </label>
+                    <select
+                      id="status"
+                      {...register("status")}
+                      className="w-full px-4 py-3 bg-gray-50 border-2 border-gray-200 rounded-xl text-gray-900 focus:outline-none focus:bg-white focus:border-blue-500 focus:ring-4 focus:ring-blue-100 transition-all duration-200"
+                    >
+                      {Object.values(ServiceOrderItemStatus)
+                        .filter((status) =>
+                          !initialData
+                            ? status !== ServiceOrderItemStatus.EXECUTING
+                            : true
+                        )
+                        .map((status) => (
+                          <option key={status} value={status}>
                             {
-                              [ServiceOrderItemStatus.PENDING]: "Pendente",
-                              [ServiceOrderItemStatus.COMPLETED]: "Concluído",
-                              [ServiceOrderItemStatus.CANCELED]: "Cancelado",
-                              [ServiceOrderItemStatus.EXECUTING]:
-                                "Em andamento",
-                            }[status]
-                          }
-                        </option>
-                      ))}
-                  </select>
-                </div>
+                              {
+                                [ServiceOrderItemStatus.PENDING]: "Pendente",
+                                [ServiceOrderItemStatus.COMPLETED]: "Concluído",
+                                [ServiceOrderItemStatus.EXECUTING]:
+                                  "Em andamento",
+                              }[status]
+                            }
+                          </option>
+                        ))}
+                    </select>
+                  </div>
+                ) : undefined}
               </div>
 
               <div className="flex flex-col sm:flex-row items-center justify-end gap-4 pt-8 border-t border-gray-200">

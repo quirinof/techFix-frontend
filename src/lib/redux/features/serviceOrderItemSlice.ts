@@ -4,7 +4,6 @@ export enum ServiceOrderItemStatus {
   PENDING = "pending",
   EXECUTING = "executing",
   COMPLETED = "completed",
-  CANCELED = "canceled",
 }
 
 export interface IServiceOrderItem {

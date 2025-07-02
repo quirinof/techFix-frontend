@@ -24,14 +24,12 @@ const statusLabel: Record<ServiceOrderItemStatus, string> = {
   pending: "Pendente",
   executing: "Em Andamento",
   completed: "Concluído",
-  canceled: "Cancelado",
 };
 
 const statusColor: Record<ServiceOrderItemStatus, string> = {
   pending: "bg-yellow-100 text-yellow-800",
   executing: "bg-blue-100 text-blue-800",
   completed: "bg-green-100 text-green-800",
-  canceled: "bg-red-100 text-red-800",
 };
 
 const ServiceOrderItemList: React.FC<ServiceOrderItemListProps> = ({
