@@ -239,7 +239,7 @@ const CustomerForm: React.FC<CustomerFormProps> = ({
         {initialData && (
           <div className="mt-8">
             <div className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden">
-              <div className="p-6">
+              <div className="p-6 flex flex-col gap-4">
                 <h3 className="text-lg font-semibold text-gray-800 mb-4">
                   Ações Adicionais
                 </h3>
