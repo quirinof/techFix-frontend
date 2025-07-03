@@ -18,7 +18,7 @@ export interface IBill {
   id: number;
   amount: number;
   paymentMethod: PaymentMethod;
-  dueDate: Date;
+  dueDate: string;
   status: BillStatus;
   serviceOrderId: number;
 }
