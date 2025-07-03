@@ -73,6 +73,10 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
     router.push(`/admin/ordem-servico-item/${initialData?.id}`);
   };
 
+  const handleNavigateToBill = () => {
+    router.push(`/admin/conta/${initialData?.id}`);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50">
       <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -256,6 +260,29 @@ const ServiceOrderForm: React.FC<ServiceOrderFormProps> = ({
                       </div>
                     </div>
                     <ArrowRight className="w-5 h-5 text-blue-600 group-hover:translate-x-1 transition-transform duration-300" />
+                  </div>
+                </div>
+
+                <div
+                  onClick={handleNavigateToBill}
+                  className="group relative overflow-hidden bg-gradient-to-r from-green-50 to-green-100 border-2 border-green-200 rounded-xl p-6 cursor-pointer transition-all duration-300 hover:shadow-lg hover:scale-105"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-4">
+                      <div className="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center shadow-md">
+                        <ClipboardList className="w-6 h-6 text-white" />
+                      </div>
+                      <div>
+                        <h4 className="text-lg font-semibold text-gray-800">
+                          Gerenciar Cobrança
+                        </h4>
+                        <p className="text-gray-600 text-sm">
+                          Visualize, edite ou crie a cobrança referente a esta
+                          OS
+                        </p>
+                      </div>
+                    </div>
+                    <ArrowRight className="w-5 h-5 text-green-600 group-hover:translate-x-1 transition-transform duration-300" />
                   </div>
                 </div>
               </div>
