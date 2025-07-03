@@ -14,7 +14,7 @@ export const makeStore = () => {
       equipment: equipmentReducer,
       serviceOrder: serviceOrderReducer,
       serviceOrderItem: serviceOrderItemReducer,
-      serviceBill: serviceBillReducer,
+      bill: serviceBillReducer,
     },
   });
 };
