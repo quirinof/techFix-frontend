@@ -6,12 +6,13 @@ import api from "@/lib/axios/api";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
 
-interface LoginProps {
+interface RegisterProps {
+  name: string;
   email: string;
   password: string;
 }
 
-export default function LoginScreen() {
+export default function RegisterScreen() {
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -22,14 +23,12 @@ export default function LoginScreen() {
     handleSubmit,
     formState: { errors },
     reset,
-  } = useForm<LoginProps>();
+  } = useForm<RegisterProps>();
 
-  const onSubmit = async (data: LoginProps) => {
+  const onSubmit = async (data: RegisterProps) => {
     setIsLoading(true);
     try {
-      const response = await api.post("/user/login", data);
-
-      Cookies.set("accessToken", response.data.accessToken, { expires: 7 });
+      await api.post("/user", data);
 
       router.push("/");
     } catch (err) {
@@ -48,11 +47,41 @@ export default function LoginScreen() {
             <div className="inline-flex items-center justify-center w-16 h-16 bg-blue-600 rounded-full mb-4 shadow-lg">
               <User className="w-8 h-8 text-white" />
             </div>
-            <h1 className="text-3xl font-bold text-white mb-2">Bem-vindo</h1>
-            <p className="text-slate-300">Entre na sua conta para continuar</p>
+            <h1 className="text-3xl font-bold text-white mb-2">Criar Conta</h1>
+            <p className="text-slate-300">Crie sua conta para começar</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <div className="space-y-2">
+              <label
+                htmlFor="name"
+                className="block text-sm font-medium text-slate-200"
+              >
+                Nome
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <input
+                  id="name"
+                  type="text"
+                  {...register("name", {
+                    required: "Nome é obrigatório",
+                    minLength: {
+                      value: 2,
+                      message: "Nome deve ter pelo menos 2 caracteres",
+                    },
+                  })}
+                  className="w-full pl-10 pr-4 py-3 bg-slate-800/50 border border-slate-600 rounded-xl text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                  placeholder="Seu nome completo"
+                />
+              </div>
+              {errors.name && (
+                <p className="text-red-400 text-sm mt-1">
+                  {errors.name.message}
+                </p>
+              )}
+            </div>
+
             <div className="space-y-2">
               <label
                 htmlFor="email"
@@ -132,10 +161,10 @@ export default function LoginScreen() {
               {isLoading ? (
                 <div className="flex items-center justify-center">
                   <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
-                  Entrando...
+                  Criando conta...
                 </div>
               ) : (
-                "Entrar"
+                "Criar conta"
               )}
             </button>
           </form>
@@ -148,14 +177,14 @@ export default function LoginScreen() {
 
           <div className="mt-8 text-center">
             <p className="text-slate-400">
-              Não tem uma conta?{" "}
+              Já tem uma conta?{" "}
               <button
                 onClick={() => {
-                  router.push("/signup");
+                  router.push("/login");
                 }}
                 className="text-blue-400 hover:text-blue-300 font-medium transition-colors"
               >
-                Cadastre-se
+                Entrar
               </button>
             </p>
           </div>
