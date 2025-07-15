@@ -16,7 +16,7 @@ export enum BillStatus {
 
 export interface IBill {
   id: number;
-  amount: number | string;
+  amount: string;
   paymentMethod: PaymentMethod;
   dueDate: string;
   status: BillStatus;
